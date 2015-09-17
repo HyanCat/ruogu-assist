@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')->hourly();
+		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('18:00:00')->sendOutputTo(storage_path('schedule') . '/admail_' . date('Ymd') . '.log');
+		$schedule->command('mail:check --clear')->dailyAt('20:00:00')->sendOutputTo(storage_path('schedule') . '/checkmail_' . date('Ymd') . '.log');
 	}
 }
