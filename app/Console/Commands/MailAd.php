@@ -64,6 +64,7 @@ class MailAd extends Command
 				$user->status = 3;
 				$user->save();
 			}
+			$this->error($error->message);
 		});
 	}
 }
