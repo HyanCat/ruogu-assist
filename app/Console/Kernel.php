@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,7 +29,13 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('18:00:00')->sendOutputTo(storage_path('schedule') . '/admail_' . date('Ymd') . '.log');
-		$schedule->command('mail:check --clear')->dailyAt('20:00:00')->sendOutputTo(storage_path('schedule') . '/checkmail_' . date('Ymd') . '.log');
+		// 每天 10 点开始，每个小时执行一次
+		if (Carbon::now()->hour >= 10) {
+			$schedule->command('mail:ad 100 --everytime=20')->hourly()->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		}
+		// 每天 22 点开始，清除无效邮件
+		if (Carbon::now()->hour >= 22) {
+			$schedule->command('mail:check --clear')->hourly()->sendOutputTo(storage_path('schedule') . '/checkmail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		}
 	}
 }
