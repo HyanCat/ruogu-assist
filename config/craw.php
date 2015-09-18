@@ -19,5 +19,15 @@ return [
 			'skey'   => env('SKEY_2656148155', ''),
 			'groups' => [],
 		],
+		[
+			'uin'    => '1576406713',
+			'skey'   => env('SKEY_1576406713', ''),
+			'groups' => explode(',', env('GROUP_1576406713', '')),
+		],
+		[
+			'uin'    => '2545804584',
+			'skey'   => env('SKEY_2545804584', ''),
+			'groups' => explode(',', env('GROUP_2545804584', '')),
+		],
 	],
 ];

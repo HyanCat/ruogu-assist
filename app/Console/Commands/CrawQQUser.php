@@ -42,6 +42,8 @@ class CrawQQUser extends Command
 	private function crawSomeGroupMembers($groupApi, $groups)
 	{
 		foreach ($groups as $groupId) {
+			if (empty($groupId))
+				continue;
 			$members = $groupApi->getGroupMembers($groupId);
 			if (count($members) > 0) {
 				foreach ($members as $aMember) {
