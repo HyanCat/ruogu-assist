@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
 		Commands\MailAd::class,
 		Commands\MailPush::class,
 		Commands\MailCheck::class,
+		Commands\CrawQQUser::class,
 	];
 
 	/**
