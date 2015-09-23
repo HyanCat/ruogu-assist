@@ -24,9 +24,12 @@ class MailAd extends Command
 	public function handle()
 	{
 		$count     = intval($this->argument('count'));
-		$everytime = intval($this->option('everytime'));
+		$everytime = intval($this->option('everytime')) ?: 10;
 		$this->info('[' . Carbon::now() . ']');
 		$this->info('Begin count: ' . $count . ' everytime: ' . $everytime);
+
+		$this->pushTestMail();
+		$count--;
 
 		$index = 0;
 		while ($index < $count) {
@@ -35,6 +38,7 @@ class MailAd extends Command
 			}
 			$this->pushEmails($everytime);
 			$index += $everytime;
+			sleep(10);
 		}
 	}
 
@@ -64,6 +68,18 @@ class MailAd extends Command
 				$user->status = 3;
 				$user->save();
 			}
+			$this->error($error->message);
+		});
+	}
+
+	private function pushTestMail()
+	{
+		$testMail = '291699782@qq.com';
+		$this->info('Push test mail to: ' . $testMail);
+		SendCloud::sendTemplate('ruogu_invite_to_register', [], function (SendCloudMessage $message) use ($testMail) {
+			$message->to([$testMail])->subject('若古社区诚邀您入驻');
+		})->success(function ($response) {
+		})->failure(function ($response, $error) {
 			$this->error($error->message);
 		});
 	}

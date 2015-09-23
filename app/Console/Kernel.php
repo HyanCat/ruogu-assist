@@ -18,18 +18,27 @@ class Kernel extends ConsoleKernel
 
 	protected function schedule(Schedule $schedule)
 	{
-		// 每天下午 1 点到 5 点，每个小时 100
-		if (Carbon::now()->hour >= 13 && Carbon::now()->hour <= 17) {
-			$schedule->command('mail:ad 100 --everytime=20')->hourly()->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		if (Carbon::now()->isWeekend()) {
+			// 周末下午 1 点到 5 点，每个小时 200
+			if (Carbon::now()->hour >= 13 && Carbon::now()->hour <= 17) {
+				$schedule->command('mail:ad 200 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
+			}
 		}
-		// 每天 18 点发 800
-		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('18:00')->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		// 每天 18 点发 500
+		$schedule->command('mail:ad 500 --everytime=20')->dailyAt('18:00')->sendOutputTo($this->storageFile());
 		// 每天 19 点发 800
-		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('19:00')->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('19:00')->sendOutputTo($this->storageFile());
+		// 每天 20 点发剩下的
+		$schedule->command('mail:ad 1000 --everytime=20')->dailyAt('20:00')->sendOutputTo($this->storageFile());
 
 		// 每天 23 点开始，清除无效邮件
 		if (Carbon::now()->hour == 23) {
-			$schedule->command('mail:check --clear')->everyTenMinutes()->sendOutputTo(storage_path('schedule') . '/checkmail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+			$schedule->command('mail:check --clear')->everyTenMinutes()->sendOutputTo($this->storageFile('checkmail'));
 		}
+	}
+
+	private function storageFile($prefix = 'admail')
+	{
+		return storage_path('schedule') . '/' . $prefix . '_' . Carbon::now()->format('Ymd_Hi') . '.log';
 	}
 }
