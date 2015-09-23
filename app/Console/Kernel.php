@@ -22,10 +22,10 @@ class Kernel extends ConsoleKernel
 		if (Carbon::now()->hour >= 13 && Carbon::now()->hour <= 17) {
 			$schedule->command('mail:ad 100 --everytime=20')->hourly()->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
 		}
-		// 每天 18 点发最多
+		// 每天 18 点发 800
 		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('18:00')->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
-		// 每天 19 点发 300
-		$schedule->command('mail:ad 300 --everytime=20')->dailyAt('19:00')->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
+		// 每天 19 点发 800
+		$schedule->command('mail:ad 800 --everytime=20')->dailyAt('19:00')->sendOutputTo(storage_path('schedule') . '/admail_' . Carbon::now()->format('Ymd_Hi') . '.log');
 
 		// 每天 23 点开始，清除无效邮件
 		if (Carbon::now()->hour == 23) {
