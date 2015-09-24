@@ -27,7 +27,7 @@ return [
 		[
 			'uin'    => '2545804584',
 			'skey'   => env('SKEY_2545804584', ''),
-			'groups' => explode(',', env('GROUP_2545804584', '')),
+			'groups' => [],
 		],
 	],
 ];
