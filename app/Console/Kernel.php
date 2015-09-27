@@ -21,21 +21,21 @@ class Kernel extends ConsoleKernel
 		if (Carbon::now()->isWeekend()) {
 			// 周末上午 10 点到下午 5 点，每个小时 200
 			if (Carbon::now()->hour >= 10 && Carbon::now()->hour <= 17) {
-				$schedule->command('mail:ad 201 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
+				$schedule->command('mail:ad 200 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
 			}
 			// 周末晚 6 点至 8点，每个小时 800
 			if (Carbon::now()->hour >= 18 && Carbon::now()->hour <= 20) {
-				$schedule->command('mail:ad 801 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
+				$schedule->command('mail:ad 800 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
 			}
 		}
 		else {
 			// 周一至周五
 			// 每天 18 点发 200
-			$schedule->command('mail:ad 201 --everytime=20')->dailyAt('18:00')->sendOutputTo($this->storageFile());
+			$schedule->command('mail:ad 200 --everytime=20')->dailyAt('18:00')->sendOutputTo($this->storageFile());
 			// 每天 19 点发 500
-			$schedule->command('mail:ad 501 --everytime=20')->dailyAt('19:00')->sendOutputTo($this->storageFile());
+			$schedule->command('mail:ad 500 --everytime=20')->dailyAt('19:00')->sendOutputTo($this->storageFile());
 			// 每天 20 点发 500
-			$schedule->command('mail:ad 501 --everytime=20')->dailyAt('20:00')->sendOutputTo($this->storageFile());
+			$schedule->command('mail:ad 500 --everytime=20')->dailyAt('20:00')->sendOutputTo($this->storageFile());
 		}
 
 		// 每天 23 点开始，清除无效邮件

@@ -29,7 +29,6 @@ class MailAd extends Command
 		$this->info('Begin count: ' . $count . ' everytime: ' . $everytime);
 
 		$this->pushTestMail();
-		$count--;
 
 		$index = 0;
 		while ($index < $count) {
