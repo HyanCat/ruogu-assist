@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
 
 	protected function schedule(Schedule $schedule)
 	{
-		if (Carbon::now()->isWeekend()) {
+		if (env('WEEKEND_MODE', false) || Carbon::now()->isWeekend()) {
 			// 周末上午 10 点到下午 5 点，每个小时 200
 			if (Carbon::now()->hour >= 10 && Carbon::now()->hour <= 17) {
 				$schedule->command('mail:ad 200 --everytime=20')->hourly()->sendOutputTo($this->storageFile());
