@@ -49,7 +49,7 @@ class QQGroupApi implements QQGroupApiInterface
 				return [];
 			}
 			$content = $matches[1];
-			$content = json_decode($content, true);
+			$content = $this->safeDecode($content, true);
 			if ($content['code'] != 0) {
 				return [];
 			}
@@ -81,7 +81,7 @@ class QQGroupApi implements QQGroupApiInterface
 
 		if ($response->isOk()) {
 			$content = str_replace('&nbsp;', ' ', $response->getContent());
-			$content = json_decode($content, true);
+			$content = $this->safeDecode($content, true);
 			if (array_key_exists('mems', $content)) {
 				foreach ($content['mems'] as $mem) {
 					$members[] = ['qq' => $mem['u'], 'name' => $mem['n']];
@@ -112,5 +112,29 @@ class QQGroupApi implements QQGroupApiInterface
 		}
 
 		return $hash & 0x7fffffff;
+	}
+
+	private function safeDecode(string $content, $option = false)
+	{
+		$decoded = json_decode($content, $option);
+		switch (json_last_error()) {
+			case JSON_ERROR_NONE:
+				return $decoded;
+			case JSON_ERROR_DEPTH:
+				trigger_error('Maximum stack depth exceeded');
+			case JSON_ERROR_STATE_MISMATCH:
+				trigger_error('Underflow or the modes mismatch');
+			case JSON_ERROR_CTRL_CHAR:
+				trigger_error('Unexpected control character found');
+			case JSON_ERROR_SYNTAX:
+				trigger_error('Syntax error, malformed JSON');
+			case JSON_ERROR_UTF8:
+				$clean = utf8_encode($content);
+				$this->safeDecode($clean);
+			default:
+				trigger_error('Unknown error');
+		}
+
+		return null;
 	}
 }
