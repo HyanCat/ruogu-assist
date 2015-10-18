@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
 
 	protected function schedule(Schedule $schedule)
 	{
+		if (env('SLEEP_MODE', false)) {
+			return;
+		}
 		if (env('WEEKEND_MODE', false) || Carbon::now()->isWeekend()) {
 			// 周末上午 10 点到下午 5 点，每个小时 200
 			if (Carbon::now()->hour >= 10 && Carbon::now()->hour <= 17) {
