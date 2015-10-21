@@ -114,7 +114,7 @@ class QQGroupApi implements QQGroupApiInterface
 		return $hash & 0x7fffffff;
 	}
 
-	private function safeDecode(string $content, $option = false)
+	private function safeDecode($content, $option = false)
 	{
 		$decoded = json_decode($content, $option);
 		switch (json_last_error()) {
