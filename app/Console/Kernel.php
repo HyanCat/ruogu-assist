@@ -18,6 +18,11 @@ class Kernel extends ConsoleKernel
 
 	protected function schedule(Schedule $schedule)
 	{
+		$this->mailSchedule($schedule);
+	}
+
+	protected function mailSchedule(Schedule $schedule)
+	{
 		if (env('SLEEP_MODE', false)) {
 			return;
 		}

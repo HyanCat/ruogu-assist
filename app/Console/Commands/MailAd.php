@@ -43,7 +43,7 @@ class MailAd extends Command
 
 	protected function pushEmails($count)
 	{
-		$qqUsers = CrawQqUser::where('status', 0)->take($count)->get();
+		$qqUsers = CrawQqUser::whereIn('status', [0, 3])->take($count)->get();
 		$mails   = [];
 		foreach ($qqUsers as $user) {
 			$user->status = 1;

@@ -55,6 +55,7 @@ class CrawQQUser extends Command
 						$this->info('Exist: ' . $aMember['qq']);
 					}
 				}
+				$this->info('Finish Group: ' . $groupId);
 			}
 			else {
 				$this->error('Error: ' . $groupId);
